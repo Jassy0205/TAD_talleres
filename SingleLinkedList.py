@@ -147,3 +147,19 @@ class SingleLinkedList:
         else: 
             print('No se encontró el nodo a buscar')
             return None
+
+    def reverse_nodes(self):
+        if self.length == 0:
+            print('No hay datos')
+        else:
+            current_node = self.head
+            prev_node = None
+            self.tail = current_node
+
+            while current_node is not None:
+                next_node = current_node.next
+                current_node.next = prev_node 
+                prev_node = current_node
+                current_node = next_node 
+            
+            self.head = prev_node

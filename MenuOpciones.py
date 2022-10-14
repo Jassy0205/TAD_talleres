@@ -59,7 +59,7 @@ class MenuOpciones:
     def verificar_respuesta1(self, respuesta):
         if respuesta == 'a':
             primer_paso = self.sub_menu_numero1()
-            print('continuará')
+            self.accion_singlelinkedlist(respuesta)
         elif respuesta == 'b':
             primer_paso = self.sub_menu_numero1()
             self.accion_doublelinkedlist(primer_paso)
@@ -88,7 +88,7 @@ class MenuOpciones:
             elif segunda_response == '3':
                 index = int(input('Ingresa el indice: '))
                 value = int(input('Ingresa el valor: '))
-                inst_dll.shift_search_node(index, value)
+                inst_dll.shift_search_node(index)
         elif respuesta == 'c':
             index = int(input('Ingresa el indice: '))
             inst_dll.get_node_value(index)
@@ -98,6 +98,48 @@ class MenuOpciones:
             inst_dll.update_node_value(index, value)
         elif respuesta == 'e':
             inst_dll.reverse_nodes()
+        elif respuesta == 'f':
+            segunda_response = self.sub_menu_numero3()
+            if segunda_response == '1':
+                print('Continuará')
+            elif segunda_response == '2':
+                print('Continuará')
+        else: 
+            print('Respuesta incorrecta')
+            self.sub_menu_numero1()
+
+    def accion_singlelinkedlist(self, respuesta):
+        if respuesta == 'a':
+            segunda_response = self.sub_menu_numero2()
+            if segunda_response == '1':
+                value = int(input('Ingresa el valor: '))
+                inst_sll.push_head_node(value)
+            elif segunda_response == '2':
+                value = int(input('Ingresa el valor: '))
+                inst_sll.push_tail_node(value)
+            elif segunda_response == '3':
+                index = int(input('Ingresa el indice: '))
+                value = int(input('Ingresa el valor: '))
+                inst_sll.insert_new_node(index, value)
+        elif respuesta == 'b':
+            segunda_response = self.sub_menu_numero2()
+            if segunda_response == '1':
+                inst_sll.shift_head_node()
+            elif segunda_response == '2':
+                inst_sll.pop_node()
+            elif segunda_response == '3':
+                index = int(input('Ingresa el indice: '))
+                value = int(input('Ingresa el valor: '))
+                inst_sll.remove_node(index)
+        elif respuesta == 'c':
+            index = int(input('Ingresa el indice: '))
+            inst_sll.get_node_value(index)
+        elif respuesta == 'd':
+            index = int(input('Ingresa el indice: '))
+            value = int(input('Ingresa el nuevo valor: '))
+            inst_sll.update_node_value(index, value)
+        elif respuesta == 'e':
+            inst_sll.reverse_nodes()
         elif respuesta == 'f':
             segunda_response = self.sub_menu_numero3()
             if segunda_response == '1':
