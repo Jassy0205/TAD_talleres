@@ -51,6 +51,7 @@ class SingleLinkedList:
         if self.length == 0:  #Verificamos que no haya nada en la lista
             self.head = None
             self.tail = None 
+            print('No hay datos')
         else: 
             remove_node = self.head #Actualizamos el nombre de la cabeza con la variable auxiliar
             self.head = remove_node.next  #Actualizamos la cabeza de la lista
@@ -62,6 +63,7 @@ class SingleLinkedList:
         if self.length == 0:  #Verificamos que no haya nada en la lista
             self.head = None
             self.tail = None 
+            print('No hay datos')
         else: 
             current_node = self.head
             ahora = current_node
@@ -76,39 +78,45 @@ class SingleLinkedList:
 
     #Metodo que retorna el nodo que se encuentra en la posicion ingresada
     def get_node(self, index):
-        if index > 1 and index < self.length:
-            contador = 1
-            current_node = self.head
+        if self.length == 0:
+            print('No hay datos')
+        else:
+            if index > 1 and index < self.length:
+                contador = 1
+                current_node = self.head
 
-            while contador < self.length and contador < index:
-                contador += 1
-                current_node = current_node.next
+                while contador < self.length and contador < index:
+                    contador += 1
+                    current_node = current_node.next
 
-            return current_node
-        elif index == self.length:
-            return self.tail
-        elif index == 1: 
-            return self.head
-        else: 
-            return None
+                return current_node
+            elif index == self.length:
+                return self.tail
+            elif index == 1: 
+                return self.head
+            else: 
+                return None
 
     #Metodo que retorna el valor del nodo que se encuentra en la posicion ingresada
     def get_node_value(self, index):
-        if index > 1 and index < self.length:
-            contador = 1
-            current_node = self.head
+        if self.length == 0:
+            print('No hay datos')
+        else:
+            if index > 1 and index < self.length:
+                contador = 1
+                current_node = self.head
 
-            while contador < self.length and contador < index:
-                contador += 1
-                current_node = current_node.next
+                while contador < self.length and contador < index:
+                    contador += 1
+                    current_node = current_node.next
 
-            return current_node.value
-        elif index == self.length:
-            return self.tail.value
-        elif index == 1: 
-            return self.head.value
-        else: 
-            return None
+                return current_node.value
+            elif index == self.length:
+                return self.tail.value
+            elif index == 1: 
+                return self.head.value
+            else: 
+                return None
 
     #Metodo que permite insertar un nuevo nodo en una posicion ingresada
     def insert_new_node(self, index, value):
@@ -126,28 +134,37 @@ class SingleLinkedList:
 
     #Metodo que permite eliminar el nodo que se encuentra en una posicion ingresada
     def remove_node(self, index): 
-        if index == 1: 
-            self.shift_head_node()
-        elif index == self.length+1:
-            self.pop_node()
-        else: 
-            remove_node = self.get_node(index)
-            if remove_node != None:
-                previous_node = self.get_node(index - 1)
-                previous_node.next = remove_node.next
-                remove_node.next = None
-            self.length-=1
+        if self.length == 0:
+            print('No hay datos')
+        else:
+            if index == 1: 
+                self.shift_head_node()
+            elif index == self.length:
+                self.pop_node()
+            elif index < self.length and index > 1:
+                remove_node = self.get_node(index)
+                if remove_node != None:
+                    previous_node = self.get_node(index - 1)
+                    previous_node.next = remove_node.next
+                    remove_node.next = None
+                self.length-=1
+            else: 
+                print('El indice ingresado no existe')
 
     #Metodo que permite actualizar el valor del nodo en una posicion ingresada
     def update_node_value(self, index, value):
-        search_node = self.get_node(index)
-        if search_node != None: 
-            search_node.value = value #encontró el nodo y se puede actualizar
-            return search_node.value
-        else: 
-            print('No se encontró el nodo a buscar')
-            return None
-
+        if self.length == 0:
+            print('No hay datos')
+        else:
+            search_node = self.get_node(index)
+            if search_node != None: 
+                search_node.value = value #encontró el nodo y se puede actualizar
+                return search_node.value
+            else: 
+                print('No se encontró el nodo a buscar')
+                return None
+            
+    #Metodo que permite invertir toda la lista
     def reverse_nodes(self):
         if self.length == 0:
             print('No hay datos')
@@ -163,3 +180,15 @@ class SingleLinkedList:
                 current_node = next_node 
             
             self.head = prev_node
+
+    def verificar_existencia(self, value):
+        if self.length == 0:
+            print('Lista vacía')
+        else:
+            current_node = self.head
+            while current_node is not None:
+                if current_node.value == value:
+                    return True
+                current_node = current_node.next
+            
+            return None

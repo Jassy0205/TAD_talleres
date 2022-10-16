@@ -39,7 +39,6 @@ class DoubleLinkedList:
     #Con este metodo se agragan nodos al inicio de la lista
     def push_head_node(self, value):
         new_node = self.Node(value)
-
         if self.length == 0:
             self.head = new_node
             self.tail = new_node 
@@ -80,6 +79,7 @@ class DoubleLinkedList:
         if self.length == 0:  
             self.head = None
             self.tail = None 
+            print('Lista vacía')
         elif self.head != None: 
             remove_node = self.head 
             self.head = remove_node.next  
@@ -92,6 +92,7 @@ class DoubleLinkedList:
         if self.length == 0:  
             self.head = None
             self.tail = None 
+            print('Lista vacía')
         else: 
             remove_node = self.tail 
             self.tail = remove_node.previous  
@@ -124,7 +125,9 @@ class DoubleLinkedList:
 
     #Metodo que retorna el valor del nodo que se encuentra en la posicion ingresada
     def get_node_value(self, index):
-        if index > 1 and index < self.length:
+        if self.length == 0:
+            print('Lista vacía')
+        elif index > 1 and index < self.length:
             contador = 1
             current_node = self.head
 
@@ -142,7 +145,9 @@ class DoubleLinkedList:
 
     #Metodo que retorna el nodo que se encuentra en la posicion ingresada
     def get_node(self, index):
-        if index > 1 and index < self.length:
+        if self.length == 0:
+            print('Lista vacía')
+        elif index > 1 and index < self.length:
             contador = 1
             current_node = self.head
 
@@ -160,13 +165,16 @@ class DoubleLinkedList:
 
     #Metodo que permite actualizar el valor del nodo en una posicion ingresada
     def update_node_value(self, index, value):
-        search_node = self.get_node(index)
-        if search_node != None: 
-            search_node.value = value #encontró el nodo y se puede actualizar
-            return search_node.value
-        else: 
-            print('No se encontró el nodo a buscar')
-            return None
+        if self.length == 0: 
+            print('Lista vacía')
+        else:
+            search_node = self.get_node(index)
+            if search_node != None: 
+                search_node.value = value #encontró el nodo y se puede actualizar
+                return search_node.value
+            else: 
+                print('No se encontró el nodo a buscar')
+                return None
 
     #Metodo que permite invertir toda la lista
     def reverse_nodes(self):
@@ -186,3 +194,15 @@ class DoubleLinkedList:
                 cu = cu.previous
 
             self.head = current_node1
+
+    def verificar_existencia(self, value):
+        if self.length == 0:
+            return None
+        else:
+            current_node = self.head
+            while current_node is not None:
+                if current_node.value == value:
+                    return True
+                current_node = current_node.next
+            
+            return None
