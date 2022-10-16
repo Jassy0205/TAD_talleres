@@ -102,6 +102,7 @@ class MenuOpciones:
                 elif segunda_response == '3':
                     index = int(input('Ingresa el indice: '))
                     inst_dll.insert_node(index, value)
+                verificar_show_list(self, 'doble')
 
         elif respuesta == 'b':
             print(Fore.MAGENTA + 'b. Eliminar nodo')
@@ -114,18 +115,22 @@ class MenuOpciones:
                 index = int(input('Ingresa el indice: '))
                 value = int(input('Ingresa el valor: '))
                 inst_dll.shift_search_node(index)
+            verificar_show_list(self, 'doble')
 
         elif respuesta == 'c':
             index = int(input('Ingresa el indice: '))
             inst_dll.get_node_value(index)
+            verificar_show_list(self, 'doble')
 
         elif respuesta == 'd':
             index = int(input('Ingresa el indice: '))
             value = int(input('Ingresa el nuevo valor: '))
             inst_dll.update_node_value(index, value)
+            verificar_show_list(self, 'doble')
 
         elif respuesta == 'e':
             inst_dll.reverse_nodes()
+            verificar_show_list(self, 'doble')
         elif respuesta == 'f':
             segunda_response = self.sub_menu_numero3()
             if segunda_response == '1':
@@ -140,23 +145,32 @@ class MenuOpciones:
         if repeticion_ciclo == '1':
             return True
         elif repeticion_ciclo == '0': 
-            return None
-        else: 
             return False
+        else: 
+            return None
 
     #Con este metodo se llaman a las funciones de la SingleLinkedList dependiendo de la que se haya elegido en el sub_menu_numero1
     def accion_singlelinkedlist(self, respuesta):
         if respuesta == 'a':
+
             print(Fore.MAGENTA + 'a. Añadir nodo')
             segunda_response = self.sub_menu_numero2()
+            
             value = int(input('Ingresa el valor: '))
-            if segunda_response == '1':
-                inst_sll.push_head_node(value)
-            elif segunda_response == '2':
-                inst_sll.push_node(value)
-            elif segunda_response == '3':
-                index = int(input('Ingresa el indice: '))
-                inst_sll.insert_new_node(index, value)
+            existe_node = inst_dll.verificar_existencia(value)
+
+            if  existe_node == True:
+                print(Fore.RED + 'El nodo ya existe en la lista')
+            else:
+                if segunda_response == '1':
+                    inst_sll.push_head_node(value)
+                elif segunda_response == '2':
+                    inst_sll.push_node(value)
+                elif segunda_response == '3':
+                    index = int(input('Ingresa el indice: '))
+                    inst_sll.insert_new_node(index, value)
+                verificar_show_list(self, 'simple')
+
         elif respuesta == 'b':
             print(Fore.MAGENTA + 'b. Eliminar nodo')
             segunda_response = self.sub_menu_numero2()
@@ -168,15 +182,20 @@ class MenuOpciones:
                 index = int(input('Ingresa el indice: '))
                 value = int(input('Ingresa el valor: '))
                 inst_sll.remove_node(index)
+            verificar_show_list(self, 'simple')
+
         elif respuesta == 'c':
             index = int(input('Ingresa el indice: '))
             inst_sll.get_node_value(index)
+            verificar_show_list(self, 'simple')
         elif respuesta == 'd':
             index = int(input('Ingresa el indice: '))
             value = int(input('Ingresa el nuevo valor: '))
             inst_sll.update_node_value(index, value)
+            verificar_show_list(self, 'simple')
         elif respuesta == 'e':
             inst_sll.reverse_nodes()
+            verificar_show_list(self, 'simple')
         elif respuesta == 'f':
             segunda_response = self.sub_menu_numero3()
             if segunda_response == '1':
@@ -186,3 +205,24 @@ class MenuOpciones:
         else: 
             print('Respuesta incorrecta')
             self.sub_menu_numero1()
+
+        repeticion_ciclo = input(Fore.RED + 'Desea continuar haciendo algo más en la lista simple? Responda con 1 para si y con 0 para no: ')
+        if repeticion_ciclo == '1':
+            return True
+        elif repeticion_ciclo == '0': 
+            return False
+        else: 
+            return None
+
+
+def verificar_show_list(self, tipo):
+    show_list_consola = input(Fore.RED + 'Desea ver la lista? Responda con 1 para si y con 0 para no: ')
+    print(Fore.YELLOW)
+    if show_list_consola == '1':
+        if tipo == 'simple':
+            inst_sll.show_info_sll()
+        else: 
+            inst_dll.show_list()
+    elif show_list_consola != '0': 
+        print('Intentalo de nuevo')
+        verificar_show_list(self, tipo)

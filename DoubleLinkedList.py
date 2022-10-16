@@ -18,11 +18,11 @@ class DoubleLinkedList:
     def insert_node(self, index, value):
         new_node = self.Node(value)
 
-        if index == 0:
+        if index == 1:
             self.push_head_node(value)
-        elif index == self.length:
+        elif index == self.length+1:
             self.push_tail_node(value)
-        elif index > 0 and index < self.length:
+        elif index > 1 and index < self.length:
             current_node = self.head
 
             for i in range(index-1):
@@ -195,6 +195,8 @@ class DoubleLinkedList:
 
             self.head = current_node1
 
+    #Metodo que permite validar la existencia de un nodo comparando 
+    # el valor de entrada con los ya existenctes en la lista 
     def verificar_existencia(self, value):
         if self.length == 0:
             return None

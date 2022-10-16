@@ -181,6 +181,8 @@ class SingleLinkedList:
             
             self.head = prev_node
 
+    #Metodo que permite validar la existencia de un nodo comparando 
+    # el valor de entrada con los ya existenctes en la lista 
     def verificar_existencia(self, value):
         if self.length == 0:
             print('Lista vacía')
