@@ -22,12 +22,8 @@ class DoubleLinkedList:
             self.push_head_node(value)
         elif index == self.length+1:
             self.push_tail_node(value)
-        elif index > 1 and index < self.length:
-            current_node = self.head
-
-            for i in range(index-1):
-                current_node = current_node.next
-
+        elif index > 1 and index < self.length+1:
+            current_node = self.get_node(index-1)
             new_node.next = current_node.next
             new_node.previous = current_node
             current_node.next.previous = new_node
@@ -208,3 +204,14 @@ class DoubleLinkedList:
                 current_node = current_node.next
             
             return None
+    
+    #Metodo que revierte las posiciones de la lista, y luego
+    #modifica los valores de cada posición por las raices cudrada de cada una
+    def validar_reverse_raiz_cuadrada(self):
+        self.reverse_nodes()
+        count_node = 1
+        current_node = self.head
+        while current_node is not None:
+            self.update_node_value(count_node, pow(current_node.value, 1/2))
+            current_node = current_node.next
+            count_node += 1

@@ -34,7 +34,7 @@ class MenuOpciones:
         print('c. Consultar valor contenido en el nodo')
         print('d. Modificar valor de nodo')
         print('e. Invertir toda la lista')
-        print('f. validación especial')
+        print('f. Validación especial')
         print('g. Atrás')
 
         respuesta = input('R/ ')
@@ -80,7 +80,7 @@ class MenuOpciones:
             seguimiento_menu = self.accion_doublelinkedlist(primer_paso)
             return (str(seguimiento_menu) + ',b')
         elif respuesta == 'c':
-            return None
+            return 'salir'
     
     #Con este metodo se llaman a las funciones de la DoubleLinkedList dependiendo de la que se haya elegido en el sub_menu_numero1
     def accion_doublelinkedlist(self, respuesta):
@@ -102,7 +102,7 @@ class MenuOpciones:
                 elif segunda_response == '3':
                     index = int(input('Ingresa el indice: '))
                     inst_dll.insert_node(index, value)
-                verificar_show_list(self, 'doble')
+                self.verificar_show_list('doble')
 
         elif respuesta == 'b':
             print(Fore.MAGENTA + 'b. Eliminar nodo')
@@ -113,41 +113,38 @@ class MenuOpciones:
                 inst_dll.pop_node()
             elif segunda_response == '3':
                 index = int(input('Ingresa el indice: '))
-                value = int(input('Ingresa el valor: '))
                 inst_dll.shift_search_node(index)
-            verificar_show_list(self, 'doble')
+            self.verificar_show_list('doble')
 
         elif respuesta == 'c':
             index = int(input('Ingresa el indice: '))
-            inst_dll.get_node_value(index)
-            verificar_show_list(self, 'doble')
+            value = inst_dll.get_node_value(index)
+            print(Fore.YELLOW + f'El valor del nodo solicitado es: {value}')
+            self.verificar_show_list('doble')
 
         elif respuesta == 'd':
             index = int(input('Ingresa el indice: '))
             value = int(input('Ingresa el nuevo valor: '))
             inst_dll.update_node_value(index, value)
-            verificar_show_list(self, 'doble')
+            inst_dll.show_list()
 
         elif respuesta == 'e':
             inst_dll.reverse_nodes()
-            verificar_show_list(self, 'doble')
+            self.verificar_show_list('doble')
         elif respuesta == 'f':
             segunda_response = self.sub_menu_numero3()
             if segunda_response == '1':
                 print('Continuará')
             elif segunda_response == '2':
-                print('Continuará')
+                inst_dll.validar_reverse_raiz_cuadrada()
+                inst_dll.show_list()
+        elif respuesta == 'g':
+            return False
         else: 
             print('Respuesta incorrecta')
             self.sub_menu_numero1()
         
-        repeticion_ciclo = input(Fore.RED + 'Desea continuar haciendo algo más en la lista doble? Responda con 1 para si y con 0 para no: ')
-        if repeticion_ciclo == '1':
-            return True
-        elif repeticion_ciclo == '0': 
-            return False
-        else: 
-            return None
+        return self.verificar_continuidad('doble')
 
     #Con este metodo se llaman a las funciones de la SingleLinkedList dependiendo de la que se haya elegido en el sub_menu_numero1
     def accion_singlelinkedlist(self, respuesta):
@@ -169,7 +166,7 @@ class MenuOpciones:
                 elif segunda_response == '3':
                     index = int(input('Ingresa el indice: '))
                     inst_sll.insert_new_node(index, value)
-                verificar_show_list(self, 'simple')
+                self.verificar_show_list('simple')
 
         elif respuesta == 'b':
             print(Fore.MAGENTA + 'b. Eliminar nodo')
@@ -180,33 +177,50 @@ class MenuOpciones:
                 inst_sll.pop_node()
             elif segunda_response == '3':
                 index = int(input('Ingresa el indice: '))
-                value = int(input('Ingresa el valor: '))
                 inst_sll.remove_node(index)
-            verificar_show_list(self, 'simple')
+            self.verificar_show_list('simple')
 
         elif respuesta == 'c':
             index = int(input('Ingresa el indice: '))
-            inst_sll.get_node_value(index)
-            verificar_show_list(self, 'simple')
+            value = inst_sll.get_node_value(index)
+            print(Fore.YELLOW + f'El valor del nodo solicitado es: {value}')
+            self.verificar_show_list('simple')
         elif respuesta == 'd':
             index = int(input('Ingresa el indice: '))
             value = int(input('Ingresa el nuevo valor: '))
             inst_sll.update_node_value(index, value)
-            verificar_show_list(self, 'simple')
+            inst_sll.show_info_sll()
         elif respuesta == 'e':
             inst_sll.reverse_nodes()
-            verificar_show_list(self, 'simple')
+            inst_sll.show_info_sll()
         elif respuesta == 'f':
-            segunda_response = self.sub_menu_numero3()
-            if segunda_response == '1':
-                print('Continuará')
-            elif segunda_response == '2':
-                print('Continuará')
+            inst_sll.validar_reverse_raiz_cuadrada()
+            inst_sll.show_info_sll()
+        elif respuesta == 'g':
+            return False
         else: 
             print('Respuesta incorrecta')
             self.sub_menu_numero1()
 
-        repeticion_ciclo = input(Fore.RED + 'Desea continuar haciendo algo más en la lista simple? Responda con 1 para si y con 0 para no: ')
+        return self.verificar_continuidad('simple')
+
+    #Con el siguiente metodo se pregunta al usuario si desea ver la lista una vez que realice la acción que desee
+    def verificar_show_list(self, tipo):
+        show_list_consola = input(Fore.RED + 'Desea ver la lista? Responda con 1 para si y con 0 para no: ')
+        print(Fore.YELLOW)
+
+        if show_list_consola == '1':
+            if tipo == 'simple':
+                inst_sll.show_info_sll()
+            else: 
+                inst_dll.show_list()
+        elif show_list_consola != '0': 
+            print('Intentalo de nuevo')
+            self.verificar_show_list(self, tipo)
+
+    #Con el siguiente metodo se pregunta al usuario si desea continuar modificando la lista actual o si desea parar
+    def verificar_continuidad(self, tipo):
+        repeticion_ciclo = input(Fore.RED + f'Desea continuar haciendo algo más en la lista {tipo}? Responda con 1 para si y con 0 para no: ')
         if repeticion_ciclo == '1':
             return True
         elif repeticion_ciclo == '0': 
@@ -214,15 +228,3 @@ class MenuOpciones:
         else: 
             return None
 
-
-def verificar_show_list(self, tipo):
-    show_list_consola = input(Fore.RED + 'Desea ver la lista? Responda con 1 para si y con 0 para no: ')
-    print(Fore.YELLOW)
-    if show_list_consola == '1':
-        if tipo == 'simple':
-            inst_sll.show_info_sll()
-        else: 
-            inst_dll.show_list()
-    elif show_list_consola != '0': 
-        print('Intentalo de nuevo')
-        verificar_show_list(self, tipo)

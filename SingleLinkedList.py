@@ -194,3 +194,14 @@ class SingleLinkedList:
                 current_node = current_node.next
             
             return None
+
+    #Metodo que revierte las posiciones de la lista, y luego
+    #modifica los valores de cada posición por las raices cudrada de cada una
+    def validar_reverse_raiz_cuadrada(self):
+        self.reverse_nodes()
+        count_node = 1
+        current_node = self.head
+        while current_node is not None:
+            self.update_node_value(count_node, pow(current_node.value, 1/2))
+            current_node = current_node.next
+            count_node += 1
