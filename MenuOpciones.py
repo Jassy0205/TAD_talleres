@@ -28,7 +28,6 @@ class MenuOpciones:
     #Con este metodo se despliega el primer sub-menú, donde se elige lo que se quiera 
     # hacer con el tipo de lista que se escogió antes, y devuelve la opción elegida
     def sub_menu_numero1(self):
-        print(Fore.BLUE + 'Submenú:  ')
         print(Fore.MAGENTA + 'a. Añadir nodo')
         print('b. Eliminar nodo')
         print('c. Consultar valor contenido en el nodo')
@@ -71,12 +70,17 @@ class MenuOpciones:
     #y si es a o b, enviandola luego a un metodo que actúa dependiendo del tipo de lista en la que se quiere trabajar 
     #si es c, se cierra el proceso y retorna un None
     def verificar_respuesta1(self, respuesta):
+        respuesta = respuesta.lower()
         if respuesta == 'a':
+            print(Fore.BLUE + 'Listas simplememnte enlazadas: ')
             primer_paso = self.sub_menu_numero1()
+            primer_paso = primer_paso.lower()
             seguimiento_menu = self.accion_singlelinkedlist(primer_paso)
             return (str(seguimiento_menu) + ',a')
         elif respuesta == 'b':
+            print(Fore.BLUE + 'Listas doblemente enlazadas: ')
             primer_paso = self.sub_menu_numero1()
+            primer_paso = primer_paso.lower()
             seguimiento_menu = self.accion_doublelinkedlist(primer_paso)
             return (str(seguimiento_menu) + ',b')
         elif respuesta == 'c':
@@ -102,16 +106,16 @@ class MenuOpciones:
 
         elif respuesta == 'c':
             index = input('Ingresa el indice: ')
-            index = self.verificar_numero(index)
+            index = self.verificar_numero(index, 'indice')
             value = inst_dll.get_node_value(index)
             print(Fore.YELLOW + f'El valor del nodo solicitado es: {value}')
             self.verificar_show_list('doble')
 
         elif respuesta == 'd':
             index = input('Ingresa el indice: ')
-            index = self.verificar_numero(index)
+            index = self.verificar_numero(index, 'indice')
             value = input('Ingresa el nuevo valor: ')
-            value = self.verificar_numero(value)
+            value = self.verificar_numero(value, 'valor')
 
             print(Fore.YELLOW)
             inst_dll.update_node_value(index, value)
@@ -155,7 +159,7 @@ class MenuOpciones:
 
         elif respuesta == 'c':
             index = input('Ingresa el indice: ')
-            index = self.verificar_numero(index)
+            index = self.verificar_numero(index, 'indice')
 
             value = inst_sll.get_node_value(index)
             print(Fore.YELLOW + f'El valor del nodo solicitado es: {value}')
@@ -163,10 +167,10 @@ class MenuOpciones:
 
         elif respuesta == 'd':
             index = input('Ingresa el indice: ')
-            index = self.verificar_numero(index)
+            index = self.verificar_numero(index, 'indice')
             value = input('Ingresa el nuevo valor: ')
             print(Fore.YELLOW)
-            value = self.verificar_numero(value)
+            value = self.verificar_numero(value, 'valor')
 
             inst_sll.update_node_value(index, value)
             inst_sll.show_info_sll()
@@ -216,14 +220,14 @@ class MenuOpciones:
             return self.verificar_continuidad(tipo)
 
     #Con el siguiente metodo se valida que el dato ingresado sea un valor de tipo numerico
-    def verificar_numero(self, value):
+    def verificar_numero(self, value, tipo):
         try: 
             numero_yea = int(value)
             return numero_yea
         except: 
             print(Fore.RED + f'El valor no es numerico. Intentalo de nuevo')
-            numero_try = input(Fore.GREEN + 'Ingresa el valor: ')
-            return self.verificar_numero(numero_try)
+            numero_try = input(Fore.GREEN + f'Ingresa el {tipo}: ')
+            return self.verificar_numero(numero_try, tipo)
     
     #En este metodo se ingresa un valor al inicio, final o en una posición especifica según el valor 
     #que se ingresa como "second_response" utilizando las funciones ya hechas en la clase DoubleLinkedList
@@ -235,7 +239,7 @@ class MenuOpciones:
             return False
         else:
             value = input('Ingresa el valor del nodo: ')
-            value = self.verificar_numero(value)
+            value = self.verificar_numero(value, 'valor')
             existe_node = inst_dll.verificar_existencia(value)
 
             if  existe_node == True:
@@ -248,10 +252,8 @@ class MenuOpciones:
                     inst_dll.push_tail_node(value)
                     self.verificar_show_list('doble')
                 elif second_response == '3':
-                    index = input('Ingresa el indice: ')
-                    index = self.verificar_numero(index)
-                    print(Fore.YELLOW)
-                    inst_dll.insert_node(index, value)
+                    insert_node = False
+                    self.verificar_out_range('doble', insert_node, value)
                     self.verificar_show_list('doble')
 
     #En este metodo se elimina un valor al inicio, final o en una posición especifica 
@@ -265,7 +267,7 @@ class MenuOpciones:
             inst_dll.pop_node()
         elif segunda_response == '3':
             index = input('Ingresa el indice: ')
-            index = self.verificar_numero(index)
+            index = self.verificar_numero(index, 'indice')
             inst_dll.shift_search_node(index)
         self.verificar_show_list('doble')
 
@@ -279,7 +281,7 @@ class MenuOpciones:
             return False
         else:
             value = input('Ingresa el valor: ')
-            value = self.verificar_numero(value)
+            value = self.verificar_numero(value, 'valor')
             existe_node = inst_dll.verificar_existencia(value)
 
             if  existe_node == True:
@@ -292,11 +294,27 @@ class MenuOpciones:
                     inst_sll.push_node(value)
                     self.verificar_show_list('simple')
                 elif segunda_response == '3':
-                    index = input('Ingresa el indice: ')
-                    index = self.verificar_numero(index)
-                    print(Fore.YELLOW)
-                    inst_sll.insert_new_node(index, value)
+                    insert_node = False
+                    self.verificar_out_range('simple', insert_node, value)
                     self.verificar_show_list('simple')
+
+    #En este metodo se verifica que el indice ingresado para insertar un nodo en una posición especifica
+    #esté dentro del rango correcto, y si no, sigue preguntando hasta que se dé uno que si
+    def verificar_out_range(self, tipo, insert_node, value):
+        if tipo == 'doble':
+            while insert_node is False:
+                index = input(Fore.CYAN +'Ingresa el indice: ')
+                index = self.verificar_numero(index, 'indice')
+                insert_node = inst_dll.insert_node(index, value)
+                if insert_node is False:
+                    print(Fore.YELLOW + 'index out of range')
+        elif tipo == 'simple':
+            while insert_node is False:
+                index = input(Fore.CYAN +'Ingresa el indice: ')
+                index = self.verificar_numero(index, 'indice')
+                insert_node = inst_sll.insert_new_node(index, value)
+                if insert_node is False:
+                    print(Fore.YELLOW + 'index out of range')
 
     #En este metodo se elimina un valor al inicio, final o en una posición especifica 
     # esto utilizando las funciones ya hechas en la clase SingleLinkedList
@@ -309,7 +327,7 @@ class MenuOpciones:
             inst_sll.pop_node()
         elif segunda_response == '3':
             index = input('Ingresa el indice: ')
-            index = self.verificar_numero(index)
+            index = self.verificar_numero(index, 'indice')
             inst_sll.remove_node(index)
         self.verificar_show_list('simple')
             
@@ -321,7 +339,7 @@ class MenuOpciones:
         segunda_response = self.sub_menu_numero3()
         if segunda_response == '1':
             index = input('Ingresa el indice: ')
-            index = self.verificar_numero(index)
+            index = self.verificar_numero(index, 'indice')
             inst_dll.update_node_value_cuadrado(index)
             print(Fore.YELLOW)
             inst_dll.show_list()

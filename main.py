@@ -17,6 +17,8 @@ respuesta = inst_menu.primer_menu()
 seguir_adelante = inst_menu.verificar_respuesta1(respuesta)
 seguir_adelante = seguir_adelante.split(',')
 
+#En este siglo while se busca verificar la continuidad del proceso, si se desea continuar o parar 
+#esto utilizando una variable seguir_adelante
 while True:  
     if  seguir_adelante[0] == 'salir':
         print(Fore.GREEN + 'Ten un buen día!')

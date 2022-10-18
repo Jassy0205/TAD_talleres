@@ -132,7 +132,7 @@ class SingleLinkedList:
         elif index == self.length+1:
             self.push_node(value)
         else: 
-            print('index out of range')
+            return False
 
     #Metodo que permite eliminar el nodo que se encuentra en una posicion ingresada
     def remove_node(self, index): 

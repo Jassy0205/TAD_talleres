@@ -30,7 +30,7 @@ class DoubleLinkedList:
             current_node.next = new_node
             self.length+=1
         else:
-            print('index out of range')
+            return False
 
     #Con este metodo se agragan nodos al inicio de la lista
     def push_head_node(self, value):
