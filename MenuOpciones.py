@@ -58,7 +58,7 @@ class MenuOpciones:
     #Con este metodo se despliega el tercer sub-menú, opciones ligadas a las respuesta f del submenú numero 1
     #Retorna la opción que haya sido escogida
     def sub_menu_numero3(self):
-        print(' 1. Punto 5')
+        print(Fore.CYAN + ' 1. Punto 5')
         print(' 2. Punto 6')
         print(' 3. Atrás')
 
@@ -89,11 +89,12 @@ class MenuOpciones:
     def accion_doublelinkedlist(self, respuesta):
         if respuesta == 'a':
 
-            print(Fore.MAGENTA + 'a. Añadir nodo')
-            segunda_response = self.sub_menu_numero2()
-
-            add_node_list = self.añadir_double_list(segunda_response)
-            if add_node_list == True:
+            add_node_list = True
+            while add_node_list == True:
+                print(Fore.MAGENTA + 'a. Añadir nodo')
+                segunda_response = self.sub_menu_numero2()
+                add_node_list = self.añadir_double_list(segunda_response)
+            if add_node_list == False: 
                 return True
 
         elif respuesta == 'b':
@@ -119,12 +120,13 @@ class MenuOpciones:
         elif respuesta == 'e':
             print(Fore.YELLOW)
             inst_dll.reverse_nodes()
-            self.verificar_show_list('doble')
+            inst_dll.show_list()
 
         elif respuesta == 'f':
-            print(Fore.MAGENTA + 'f. Validación especial')
-            print(Fore.YELLOW)
-            caso_especial = self.validacion_especial_double_list()
+            caso_especial = False
+            
+            while caso_especial == False:
+                caso_especial = self.validacion_especial_double_list()
             if caso_especial == True:
                 return True
 
@@ -140,11 +142,12 @@ class MenuOpciones:
     def accion_singlelinkedlist(self, respuesta):
         if respuesta == 'a':
 
-            print(Fore.MAGENTA + 'a. Añadir nodo')
-            segunda_response = self.sub_menu_numero2()
-
-            add_node_list = self.añadir_single_list(segunda_response)
-            if add_node_list == True:
+            add_node_list = True
+            while add_node_list == True:
+                print(Fore.MAGENTA + 'a. Añadir nodo')
+                segunda_response = self.sub_menu_numero2()
+                add_node_list = self.añadir_single_list(segunda_response)
+            if add_node_list == False: 
                 return True
 
         elif respuesta == 'b':
@@ -228,6 +231,8 @@ class MenuOpciones:
         if second_response != '1' and second_response != '2' and second_response != '3' and second_response != '4':
             print(Fore.RED + f'El valor es invalido\n')
             return True  
+        elif second_response == '4':
+            return False
         else:
             value = input('Ingresa el valor del nodo: ')
             value = self.verificar_numero(value)
@@ -245,10 +250,9 @@ class MenuOpciones:
                 elif second_response == '3':
                     index = input('Ingresa el indice: ')
                     index = self.verificar_numero(index)
+                    print(Fore.YELLOW)
                     inst_dll.insert_node(index, value)
                     self.verificar_show_list('doble')
-                elif second_response == '4':
-                    return True 
 
     #En este metodo se elimina un valor al inicio, final o en una posición especifica 
     # esto utilizando las funciones ya hechas en la clase DoubleLinkedList
@@ -271,6 +275,8 @@ class MenuOpciones:
         if segunda_response != '1' and segunda_response != '2' and segunda_response != '3' and segunda_response != '4':
             print(Fore.RED + f'El valor es invalido\n')
             return True  
+        elif segunda_response == '4':
+            return False
         else:
             value = input('Ingresa el valor: ')
             value = self.verificar_numero(value)
@@ -288,10 +294,9 @@ class MenuOpciones:
                 elif segunda_response == '3':
                     index = input('Ingresa el indice: ')
                     index = self.verificar_numero(index)
+                    print(Fore.YELLOW)
                     inst_sll.insert_new_node(index, value)
                     self.verificar_show_list('simple')
-                elif segunda_response == '4':
-                    return True
 
     #En este metodo se elimina un valor al inicio, final o en una posición especifica 
     # esto utilizando las funciones ya hechas en la clase SingleLinkedList
@@ -312,17 +317,23 @@ class MenuOpciones:
     #En este metodo se hacen las dos validaciones epeciales posibles para
     # la DobleLinkedList, esto utilizando las funciones desarrolladas en dicha clase
     def validacion_especial_double_list(self):
+        print(Fore.MAGENTA + 'f. Validación especial')
         segunda_response = self.sub_menu_numero3()
         if segunda_response == '1':
             index = input('Ingresa el indice: ')
             index = self.verificar_numero(index)
             inst_dll.update_node_value_cuadrado(index)
+            print(Fore.YELLOW)
             inst_dll.show_list()
         elif segunda_response == '2':
             inst_dll.validar_reverse_raiz_cuadrada()
-            inst_dll.show_list
+            print(Fore.YELLOW)
+            inst_dll.show_list()
         elif segunda_response == '3':
             return True
+        else: 
+            print(Fore.RED + f'El valor es invalido\n')
+            return False
 
 
 
