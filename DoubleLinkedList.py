@@ -105,19 +105,13 @@ class DoubleLinkedList:
         elif index == self.length+1:
             self.pop_node()
         else:
-            count_node = 1
-            current_node = self.head
-
-            while current_node is not None:
-                if count_node == index:
-                    current_node.previous.next = current_node.next
-                    current_node.next.previous = current_node.previous
-                    current_node.next = None
-                    current_node.previous = None
-                    self.length-=1
-                    break
-                current_node = current_node.next
-                count_node+=1
+            current_node = self.get_node(index)
+            if current_node is not None:
+                current_node.previous.next = current_node.next
+                current_node.next.previous = current_node.previous
+                current_node.next = None
+                current_node.previous = None
+                self.length-=1
 
     #Metodo que retorna el valor del nodo que se encuentra en la posicion ingresada
     def get_node_value(self, index):
