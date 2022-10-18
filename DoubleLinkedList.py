@@ -215,3 +215,14 @@ class DoubleLinkedList:
             self.update_node_value(count_node, pow(current_node.value, 1/2))
             current_node = current_node.next
             count_node += 1
+
+    #Metodo que modifica el valor del nodo en el indice indicado
+    #por el cuadrado del valor ubicado en el nodo anterior
+    def update_node_value_cuadrado(self, index):
+        if self.length == 0:
+            print('Lista vacía')
+        else:
+            current_node = self.get_node(index)
+            if current_node != None:
+                current_node.value = pow(current_node.previous.value, 2)
+                return current_node.value
